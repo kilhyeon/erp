@@ -68,4 +68,14 @@ public class EmployeeDaoTest {
 		dao.selectEmployeeByAll().stream().forEach(System.out::println);
 	}
 
+	@Test
+	public void test06selectEmployeeByTitle() {
+		System.out.printf("%s()%n", "test05SelectEmployeeByTitle");
+
+		List<Employee> empList = dao.selectEmployeeByTitle(new Title(3));
+		Assert.assertNotNull(empList);
+
+		empList.stream().forEach(System.out::println);
+	}
+
 }
