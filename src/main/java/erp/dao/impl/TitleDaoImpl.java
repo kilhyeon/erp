@@ -10,6 +10,7 @@ import java.util.List;
 import erp.dao.TitleDao;
 import erp.database.JdbcConn;
 import erp.dto.Title;
+import erp.ui.exception.SqlConstraintException;
 
 public class TitleDaoImpl implements TitleDao {
 
@@ -76,9 +77,8 @@ public class TitleDaoImpl implements TitleDao {
 			pstmt.setString(2, title.gettName());
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new SqlConstraintException(e);
 		}
-		return 0;
 	}
 
 	@Override
@@ -103,9 +103,11 @@ public class TitleDaoImpl implements TitleDao {
 			pstmt.setInt(1, titleNo);
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new SqlConstraintException(e);
+//			System.out.println("errorCode" + e.getErrorCode());
+//			e.printStackTrace();
 		}
-		return 0;
+//		return 0;
 	}
 
 }
