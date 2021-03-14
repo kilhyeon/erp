@@ -168,4 +168,24 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		}
 		return null;
 	}
+
+	@Override
+	public List<Employee> selectEmployeeByDepartment(Department department) {
+		String sql = "select empname, empno from employee e join department d on e.dept = d.deptno where deptno = ?";
+		try (Connection con = JdbcConn.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql);) {
+			pstmt.setInt(1, department.getDeptNo());
+			try (ResultSet rs = pstmt.executeQuery()) {
+				if (rs.next()) {
+					List<Employee> list = new ArrayList<>();
+					do {
+						list.add(getEmployee(rs));
+					} while (rs.next());
+					return list;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

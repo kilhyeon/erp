@@ -10,6 +10,7 @@ import java.util.List;
 import erp.dao.DepartmentDao;
 import erp.database.JdbcConn;
 import erp.dto.Department;
+import erp.ui.exception.SqlConstraintException;
 
 public class DepartmentDaoImpl implements DepartmentDao {
 
@@ -75,9 +76,8 @@ public class DepartmentDaoImpl implements DepartmentDao {
 			pstmt.setInt(3, department.getFloor());
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new SqlConstraintException(e.getMessage(), e);
 		}
-		return 0;
 	}
 
 	@Override
@@ -103,9 +103,9 @@ public class DepartmentDaoImpl implements DepartmentDao {
 			pstmt.setInt(1, deptno);			
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new SqlConstraintException(e);
 		}
-		return 0;
+//		return 0;
 	}
 
 }

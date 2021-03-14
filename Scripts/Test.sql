@@ -1,4 +1,9 @@
 select * from title;
+select * from department;
+select * from employee;
 
 -- 해당 직책을 가지고 있는 사원목록을 검색
 select empname, empno from employee e join title t on e.title = t.tno where tno = 3;
+
+-- 해당 부서에 소속된 사원목록을 검색
+select empname, empno from employee e join department d on e.dept = d.deptno where deptno = 1;

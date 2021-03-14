@@ -17,13 +17,12 @@ public class TitlePanel extends JPanel {
 	private JTextField tfName;
 
 	public TitlePanel() {
-
 		initialize();
 	}
 
 	private void initialize() {
 		setBorder(
-				new TitledBorder(null, "\uC9C1\uCC45\uC815\uBCF4", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				new TitledBorder(null, "직책정보", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		setLayout(new GridLayout(0, 2, 10, 0));
 
 		JLabel lblNo = new JLabel("직책번호");
@@ -46,6 +45,8 @@ public class TitlePanel extends JPanel {
 	public void setTitle(Title title) {
 		tfNo.setText(String.valueOf(title.gettNo()));
 		tfName.setText(title.gettName());
+		
+		tfNo.setEditable(false);
 
 	}
 

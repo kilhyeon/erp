@@ -8,11 +8,6 @@ import erp.service.DepartmentService;
 @SuppressWarnings("serial")
 public class DepartmentTablePanel extends AbstractCustomTablePanel<Department> {
 	private DepartmentService service = new DepartmentService();
-	
-	@Override
-	public void initList() {
-		list = service.showTitles();
-	}
 
 	@Override
 	protected void setAlignAndWidth() {
@@ -32,6 +27,15 @@ public class DepartmentTablePanel extends AbstractCustomTablePanel<Department> {
 	@Override
 	public String[] getColumnNames() {
 		return new String[] { "부서번호", "부서명", "위치" };
+	}
+
+	@Override
+	public void initList() {
+		list = service.showTitles();
+	}
+
+	public void setService(DepartmentService service) {
+		this.service = service;
 	}
 
 }
