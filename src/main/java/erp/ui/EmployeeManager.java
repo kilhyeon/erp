@@ -1,6 +1,5 @@
-package erp;
+package erp.ui;
 
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,51 +10,37 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import erp.dto.Department;
-import erp.dto.Employee;
-import erp.dto.Title;
 import erp.service.EmployeeService;
 import erp.ui.content.EmployeePanel;
+import erp.ui.list.EmployeeTablePanel;
 
 @SuppressWarnings("serial")
-public class TestFrame extends JFrame implements ActionListener {
+public class EmployeeManager extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
+	private EmployeePanel pContent;
 	private JButton btnAdd;
 	private JButton btnSet;
-	private EmployeePanel pEmpItem;
 	private JButton btnCancel;
+	private EmployeeTablePanel pList;
+	private EmployeeService service;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TestFrame frame = new TestFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	public TestFrame() {
+	public EmployeeManager() {
+		service = new EmployeeService();
 		initialize();
 	}
 
 	private void initialize() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 350);
+		setTitle("사원 관리");
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 600, 450);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 
-		EmployeeService service = new EmployeeService();
-		pEmpItem = new EmployeePanel();
-		pEmpItem.setService(service);
-
-		contentPane.add(pEmpItem);
+		pContent = new EmployeePanel();
+		contentPane.add(pContent);
 
 		JPanel pBtn = new JPanel();
 		contentPane.add(pBtn);
@@ -71,6 +56,11 @@ public class TestFrame extends JFrame implements ActionListener {
 		btnCancel = new JButton("취소");
 		btnCancel.addActionListener(this);
 		pBtn.add(btnCancel);
+
+		pList = new EmployeeTablePanel();
+		pList.setService(service);
+		pList.loadData();
+		contentPane.add(pList);
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -91,22 +81,13 @@ public class TestFrame extends JFrame implements ActionListener {
 	}
 
 	protected void actionPerformedBtnAdd(ActionEvent e) {
-		Employee emp = pEmpItem.getItem();
-		String message = String.format(
-				"empNo %d%n" + "empName %s%n" + "title(%d)%n" + "dept(%d)%n" + "manager(%s)%n" + "salary(%s)",
-				emp.getEmpNo(), emp.getEmpName(), emp.getTitle().gettNo(), emp.getDept().getDeptNo(),
-				emp.getManager().getEmpName(), emp.getSalary());
-
-		JOptionPane.showMessageDialog(null, message);
 	}
 
 	protected void actionPerformedBtnSet(ActionEvent e) {
-		Employee emp = new Employee(1003, "조민희", new Title(3), new Employee(4377), 3000000, new Department(3));
-		pEmpItem.setItem(emp);
-
+	
 	}
 
 	protected void actionPerformedBtnCancel(ActionEvent e) {
-		pEmpItem.clearTf();
+		pContent.clearTf();
 	}
 }

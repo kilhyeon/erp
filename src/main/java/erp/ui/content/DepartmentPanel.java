@@ -3,7 +3,6 @@ package erp.ui.content;
 import java.awt.GridLayout;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
@@ -12,17 +11,17 @@ import erp.dto.Department;
 import erp.ui.exception.InvalidCheckException;
 
 @SuppressWarnings("serial")
-public class DeptPanel extends JPanel {
+public class DepartmentPanel extends InterfaceItem<Department> {
 	private JTextField tfDeptNo;
 	private JTextField tfDeptName;
 	private JTextField tfFloor;
 
-	public DeptPanel() {
-
+	public DepartmentPanel() {
 		initialize();
 	}
-
-	private void initialize() {
+	
+	@Override
+	public void initialize() {
 
 		setBorder(new TitledBorder(null, "부서정보", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		setLayout(new GridLayout(0, 2, 10, 10));
@@ -52,37 +51,42 @@ public class DeptPanel extends JPanel {
 		add(tfFloor);
 	}
 
-	public Department getDept() {
+	@Override
+	public void setItem(Department item) {
+		tfDeptNo.setText(String.valueOf(item.getDeptNo()));
+		tfDeptNo.setText(item.getDeptNo() + "");
+		tfDeptName.setText(item.getDeptName());
+		tfFloor.setText(item.getFloor() + "");
+
+		tfDeptNo.setEditable(false);
+	}
+
+	@Override
+	public Department getItem() {
 		int deptNo = Integer.parseInt(tfDeptNo.getText().trim());
 		String deptName = tfDeptName.getText().trim();
 		int floor = Integer.parseInt(tfFloor.getText().trim());
 		return new Department(deptNo, deptName, floor);
 	}
 
-	public void setDept(Department department) {
-//		tfDeptNo.setText(String.valueOf(department.getDeptNo()));
-		tfDeptNo.setText(department.getDeptNo() + "");
-		tfDeptName.setText(department.getDeptName());
-		tfFloor.setText(department.getFloor() + "");
-		
-		tfDeptNo.setEditable(false);
-	}
-	
-	private void validCheck() {
+	@Override
+	public void validChek() {
 		if (tfDeptNo.getText().contentEquals("") || tfDeptName.getText().equals("")) {
 			throw new InvalidCheckException();
 		}
+
 	}
 
-	
+	@Override
 	public void clearTf() {
 		tfDeptNo.setText("");
 		tfDeptName.setText("");
 		tfFloor.setText("");
-		
+
 		if (!tfDeptNo.isEditable()) {
 			tfDeptNo.setEditable(true);
 		}
+
 	}
 
 }

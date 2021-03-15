@@ -170,7 +170,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	}
 
 	@Override
-	public List<Employee> selectEmployeeByDepartment(Department department) {
+	public List<Employee> selectEmployeeByDept(Department department) {
 		String sql = "select empname, empno from employee e join department d on e.dept = d.deptno where deptno = ?";
 		try (Connection con = JdbcConn.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql);) {
 			pstmt.setInt(1, department.getDeptNo());

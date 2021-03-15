@@ -16,6 +16,7 @@ public interface EmployeeDao {
 	
 	List<Employee> selectEmployeeByTitle(Title title);
 	
-	List<Employee> selectEmployeeByDepartment(Department department);
+	List<Employee> selectEmployeeByDept(Department department);
 	
+		
 }

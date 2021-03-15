@@ -82,7 +82,7 @@ public class EmployeeDaoTest {
 	public void test07selectEmployeeByDepartment() {
 		System.out.printf("%s()%n", "testSelectEmployeeByDepartment");
 
-		List<Employee> empList = dao.selectEmployeeByDepartment(new Department(1));
+		List<Employee> empList = dao.selectEmployeeByDept(new Department(1));
 		Assert.assertNotNull(empList);
 
 		empList.stream().forEach(System.out::println);

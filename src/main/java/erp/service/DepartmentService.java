@@ -29,7 +29,7 @@ public class DepartmentService {
 		dao.updateDepartment(department);
 	}
 	
-	public List<Employee> showEmployeeGroupByDepartment(Department department){
-		return empDao.selectEmployeeByDepartment(department);
+	public List<Employee> showEmployeeGroupByDept(Department department){
+		return empDao.selectEmployeeByDept(department);
 	}
 }

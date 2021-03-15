@@ -14,21 +14,27 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.border.EmptyBorder;
 
+import erp.dto.Department;
 import erp.dto.Employee;
 import erp.dto.Title;
+import erp.service.DepartmentService;
 import erp.service.TitleService;
+import erp.ui.content.DepartmentPanel;
+import erp.ui.content.InterfaceItem;
 import erp.ui.content.TitlePanel;
 import erp.ui.exception.InvalidCheckException;
 import erp.ui.exception.NotSelectedException;
 import erp.ui.exception.SqlConstraintException;
+import erp.ui.list.AbstractCustomTablePanel;
+import erp.ui.list.DepartmentTablePanel;
 import erp.ui.list.TitleTablePanel;
 
 @SuppressWarnings("serial")
 public class TitleManager extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
+	private InterfaceItem<Title> pContent;
 	private JButton btnAdd;
-	private TitlePanel pContent;
 	private TitleTablePanel pList;
 	private TitleService service;
 
@@ -47,7 +53,8 @@ public class TitleManager extends JFrame implements ActionListener {
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 
 		pContent = new TitlePanel();
-		contentPane.add(pContent);
+		contentPane.add((TitlePanel) pContent);
+//		pContent.setLayout(new GridLayout(1, 0, 0, 0));
 
 		JPanel pBtn = new JPanel();
 		contentPane.add(pBtn);
@@ -56,7 +63,8 @@ public class TitleManager extends JFrame implements ActionListener {
 		btnAdd.addActionListener(this);
 		pBtn.add(btnAdd);
 
-		JButton btnCancel = new JButton("취소");
+		btnCancel = new JButton("취소");
+		btnCancel.addActionListener(this);
 		pBtn.add(btnCancel);
 
 		pList = new TitleTablePanel();
@@ -99,21 +107,17 @@ public class TitleManager extends JFrame implements ActionListener {
 
 				if (e.getActionCommand().equals("수정")) {
 					Title updateTitle = pList.getItem();
-					pContent.setTitle(updateTitle);
-
+					pContent.setItem(updateTitle);
 					btnAdd.setText("수정");
 				}
 
-				if (e.getActionCommand().equals("동일 직책 사원 보기")) {
+				if (e.getActionCommand().contentEquals("동일 직책 사원 보기")) {
 					/*
-					 * 1. EmployeeDao -> selectEmployeeByTitle() 추가
-					 * 2. EmployeeDaoImpl -> selectEmployeeByTitle() 구현
-					 * 3. EmployeeDaoTest -> Test하기
-					 * 4. TitleService -> EmployeeDaoImpl field 추가 및 메서드 추가
-					 * 5. 아래 기능 추가
-					 * 6. 예외찾아서 추가하기 (신규 직책 추가 시 NullPointException)
+					 * 1. EmployeeDao -> selectEmployeeByTitle() 추가 2. EmployeeDaoImpl ->
+					 * selectEmployeeByTitle() 구현 3. EmployeeDaoTest -> Test하기 4. TitleService ->
+					 * EmployeeDaoImpl field 추가 및 메서드 추가 5. 아래 기능 추가 6. 예외찾아서 추가하기 (신규 직책 추가 시
+					 * NullPointException)
 					 */
-
 					Title title = pList.getItem();
 					List<Employee> list = service.showEmployeeGroupByTitle(title);
 
@@ -122,11 +126,10 @@ public class TitleManager extends JFrame implements ActionListener {
 						return;
 					}
 
-					List<String> strList = list
-							.parallelStream()
-							.map( s->{ return String.format("%s(%d)", s.getEmpName(), s.getEmpNo()); })
-							.collect(Collectors.toList());
-					
+					List<String> strList = list.parallelStream().map(s -> {
+						return String.format("%s(%d)", s.getEmpName(), s.getEmpNo());
+					}).collect(Collectors.toList());
+
 					JOptionPane.showMessageDialog(null, strList, "동일 직책 사원", JOptionPane.INFORMATION_MESSAGE);
 				}
 
@@ -135,35 +138,38 @@ public class TitleManager extends JFrame implements ActionListener {
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
-
 		}
 	};
+	private JButton btnCancel;
 
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnCancel) {
+			actionPerformedBtnCancel(e);
+		}
 		try {
 			if (e.getSource() == btnAdd) {
 				if (e.getActionCommand().contentEquals("추가")) {
 					actionPerformedBtnAdd(e);
-				}else {
+				} else {
 					actionPerformedBtnUpdate(e);
 				}
 			}
-		}catch (InvalidCheckException | SqlConstraintException e1) {
+		} catch (InvalidCheckException | SqlConstraintException e1) {
 			JOptionPane.showMessageDialog(null, e1.getMessage());
 //			pContent.clearTf();
-		}catch (Exception e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 	}
-	
+
 	private void actionPerformedBtnUpdate(ActionEvent e) {
-		//pContent에서 수정된 title 가져오기
-		//update 수행
-		//pList 갱신
-		//pContent clearTf()호출하여 초기화
-		//btnAdd 텍스트 변경 수정->추가
-		
-		Title updateTitle = pContent.getTitle();
+		// pContent에서 수정된 title 가져오기
+		// update 수행
+		// pList 갱신
+		// pContent clearTf()호출하여 초기화
+		// btnAdd 텍스트 변경 수정->추가
+
+		Title updateTitle = pContent.getItem();
 		service.modifyTitle(updateTitle);
 		pList.loadData();
 		pContent.clearTf();
@@ -172,10 +178,15 @@ public class TitleManager extends JFrame implements ActionListener {
 	}
 
 	protected void actionPerformedBtnAdd(ActionEvent e) {
-		Title title = pContent.getTitle();
+		Title title = pContent.getItem();
 		service.addTitle(title);
 		pList.loadData();
 		pContent.clearTf();
 		JOptionPane.showMessageDialog(null, title + " 추가했습니다.");
 	}
+
+	private void actionPerformedBtnCancel(ActionEvent e) {
+		pContent.clearTf();
+	}
+
 }
