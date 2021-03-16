@@ -44,7 +44,7 @@ public class EmployeeDaoTest {
 
 	@Test
 	public void test01InsertEmployee() {
-		System.out.printf("%s()%n", "testInsertDepartment");
+		System.out.printf("%s()%n", "testInsertEmployee");
 		Employee newEmployee = new Employee(1004, "천사", new Title(5), new Employee(4377), 2000000, new Department(1));
 		int res = dao.insertEmployee(newEmployee);
 		Assert.assertEquals(1, res);

@@ -1,6 +1,7 @@
 select * from title;
 select * from department;
 select * from employee;
+select * from emp_detail;
 
 -- 해당 직책을 가지고 있는 사원목록을 검색
 select empname, empno from employee e join title t on e.title = t.tno where tno = 3;
@@ -15,3 +16,11 @@ select * from employee where empno = 1003;
 select password('aaa'), length(password('aaaasdfasfasfdsf@@@')) from dual;
 
 select password('1234')
+
+
+-- emp detail insert
+INSERT INTO emp_detail(empno, pic, gender, hiredate, passwd) VALUES(?, ?, ?, ?, ?);
+
+select * from emp_detail;
+
+delete from emp_detail where empno = 1003;
