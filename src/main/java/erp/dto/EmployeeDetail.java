@@ -1,6 +1,5 @@
 package erp.dto;
 
-import java.util.Arrays;
 import java.util.Date;
 
 public class EmployeeDetail {
@@ -20,6 +19,20 @@ public class EmployeeDetail {
 
 	public EmployeeDetail(int empNo, boolean gender, Date hireDate, String pass, byte[] pic) {
 		this.empNo = empNo;
+		this.gender = gender;
+		this.hireDate = hireDate;
+		this.pass = pass;
+		this.pic = pic;
+	}
+
+	public EmployeeDetail(int empNo, boolean gender, Date hireDate, byte[] pic) {
+		this.empNo = empNo;
+		this.gender = gender;
+		this.hireDate = hireDate;
+		this.pic = pic;
+	}
+
+	public EmployeeDetail(boolean gender, Date hireDate, String pass, byte[] pic) {
 		this.gender = gender;
 		this.hireDate = hireDate;
 		this.pass = pass;
@@ -68,7 +81,8 @@ public class EmployeeDetail {
 
 	@Override
 	public String toString() {
-		return String.format("EmpDetail [empNo=%s, gender=%s, hireDate=%s, pic=%s]", empNo, gender, hireDate, pic.length);
+		return String.format("EmpDetail [empNo=%s, gender=%s, hireDate=%s, pic=%s]", empNo, gender, hireDate,
+				pic.length);
 	}
 
 }

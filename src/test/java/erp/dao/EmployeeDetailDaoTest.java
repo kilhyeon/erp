@@ -16,8 +16,10 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import erp.dao.impl.EmployeeDetailDaoImpl;
+import erp.dto.Department;
+import erp.dto.Employee;
 import erp.dto.EmployeeDetail;
-
+import erp.dto.Title;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EmployeeDetailDaoTest {
@@ -30,22 +32,26 @@ public class EmployeeDetailDaoTest {
 
 	@Test
 	public void test02SelectEmployeeDetailByNo() {
-		fail("Not yet implemented");
+		System.out.printf("%s()%n", "testSelectEmployeeDetailByNo");
+
+		EmployeeDetail employeeDetail = dao.selectEmployeeDetailByNo(new Employee(1003));
+
+		Assert.assertNotNull(employeeDetail);
 	}
 
 	@Test
 	public void test01InsertEmployeeDetail() {
 		System.out.printf("%s()%n", "testInsertEmployeeDetail");
 
-		EmployeeDetail detail = new EmployeeDetail(1003, true, new Date(), "1234", getImage("noimage.jpg"));
-		int res = dao.insertEmployeeDetail(detail);
-		
+		EmployeeDetail empDetail = new EmployeeDetail(1003, true, new Date(), "1234", getImage("noimage.jpg"));
+		int res = dao.insertEmployeeDetail(empDetail);
+
 		Assert.assertEquals(1, res);
 	}
 
 	private byte[] getImage(String imgName) {
 		byte[] pic = null;
-		
+
 		File file = new File(System.getProperty("user.dir") + File.separator + "images", imgName);
 		try (InputStream is = new FileInputStream(file)) {
 			pic = new byte[is.available()];
@@ -61,12 +67,18 @@ public class EmployeeDetailDaoTest {
 
 	@Test
 	public void test03UpdateEmployeeDetail() {
-		fail("Not yet implemented");
+		System.out.printf("%s()%n", "testUpdateEmployeeDetail");
+		EmployeeDetail empDetail = new EmployeeDetail(1003, false, new Date(), "4321", getImage("2.jpg"));
+		int res = dao.updateEmployeeDetail(empDetail);
+		Assert.assertEquals(1, res);
 	}
 
 	@Test
 	public void test04DeleteEmployeeDetail() {
-		fail("Not yet implemented");
+		System.out.printf("%s()%n", "testDeleteEmployeeDetail");
+		Employee employee = new Employee(1003);
+		int res = dao.deleteEmployeeDetail(employee);
+		Assert.assertEquals(1, res);
 	}
 
 }
