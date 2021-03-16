@@ -18,7 +18,7 @@ import erp.dto.Department;
 import erp.dto.Employee;
 import erp.service.DepartmentService;
 import erp.ui.content.DepartmentPanel;
-import erp.ui.content.InterfaceItem;
+import erp.ui.content.AbstractContentPanel;
 import erp.ui.exception.InvalidCheckException;
 import erp.ui.exception.NotSelectedException;
 import erp.ui.exception.SqlConstraintException;
@@ -28,7 +28,7 @@ import erp.ui.list.DepartmentTablePanel;
 public class DepartmentManager extends JFrame implements ActionListener {
 
 	private JPanel contentPane;
-	private InterfaceItem<Department> pContent;
+	private AbstractContentPanel<Department> pContent;
 	private JButton btnAdd;
 	private DepartmentTablePanel pList;
 	private DepartmentService service;
