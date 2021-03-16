@@ -12,6 +12,7 @@ import erp.database.JdbcConn;
 import erp.dto.Department;
 import erp.dto.Employee;
 import erp.dto.Title;
+import erp.ui.exception.SqlConstraintException;
 
 public class EmployeeDaoImpl implements EmployeeDao {
 
@@ -115,9 +116,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			pstmt.setInt(6, employee.getDept().getDeptNo());
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			throw new SqlConstraintException(e.getMessage(), e);
 		}
-		return 0;
 	}
 
 	@Override
@@ -138,10 +138,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	}
 
 	@Override
-	public int deleteEmployee(int empno) {
+	public int deleteEmployee(Employee employee) {
 		String sql = "delete from employee where empno = ?";
 		try (Connection con = JdbcConn.getConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
-			pstmt.setInt(1, empno);
+			pstmt.setInt(1, employee.getEmpNo());
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
