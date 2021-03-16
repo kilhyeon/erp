@@ -9,3 +9,9 @@ select empname, empno from employee e join title t on e.title = t.tno where tno 
 select empname, empno from employee e join department d on e.dept = d.deptno where deptno = 1;
 
 select * from employee where empno = 1003;
+
+-- passwd 길이 확인
+-- 단방향 함수(Hash:MD5)
+select password('aaa'), length(password('aaaasdfasfasfdsf@@@')) from dual;
+
+select password('1234')
