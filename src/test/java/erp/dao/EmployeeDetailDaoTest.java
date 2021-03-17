@@ -73,12 +73,15 @@ public class EmployeeDetailDaoTest {
 		Assert.assertEquals(1, res);
 	}
 
-	@Test
+//	@Test
 	public void test04DeleteEmployeeDetail() {
 		System.out.printf("%s()%n", "testDeleteEmployeeDetail");
 		Employee employee = new Employee(1003);
 		int res = dao.deleteEmployeeDetail(employee);
 		Assert.assertEquals(1, res);
+		
+		EmployeeDetail employeeDetail = dao.selectEmployeeDetailByNo(new Employee(1003));
+		Assert.assertNull(employeeDetail);
 	}
 
 }
