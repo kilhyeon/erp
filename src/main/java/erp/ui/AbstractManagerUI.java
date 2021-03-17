@@ -13,7 +13,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.border.EmptyBorder;
 
 import erp.ui.content.AbstractContentPanel;
-import erp.ui.content.TitlePanel;
 import erp.ui.exception.InvalidCheckException;
 import erp.ui.exception.SqlConstraintException;
 import erp.ui.list.AbstractCustomTablePanel;
@@ -27,12 +26,15 @@ public abstract class AbstractManagerUI<T> extends JFrame implements ActionListe
 
 	protected AbstractContentPanel<T> pContent;
 	protected AbstractCustomTablePanel<T> pList;
+	protected JMenuItem empListByTitleItem;
+
+	protected static final String TITLE_MENU = "동일 직책 사원 보기";
+	protected static final String DEPT_MENU = "동일 부서 사원 보기";
+	protected static final String EMP_MENU = "사원 세부정보 보기";
 
 	public AbstractManagerUI() {
 		setService(); // service 연결
-
 		initialize();
-
 		tableLoadData(); // component load data
 	}
 
@@ -103,7 +105,7 @@ public abstract class AbstractManagerUI<T> extends JFrame implements ActionListe
 		deleteItem.addActionListener(this);
 		popMenu.add(deleteItem);
 
-		JMenuItem empListByTitleItem = new JMenuItem("동일 직책 사원 보기");
+		empListByTitleItem = new JMenuItem("동일 직책 사원 보기");
 		empListByTitleItem.addActionListener(this);
 		popMenu.add(empListByTitleItem);
 
@@ -121,7 +123,9 @@ public abstract class AbstractManagerUI<T> extends JFrame implements ActionListe
 					actionPerformedMenuUpdate();
 				}
 
-				if (e.getActionCommand().contentEquals("동일 직책 사원 보기")) {
+				if (e.getActionCommand().contentEquals(AbstractManagerUI.TITLE_MENU)
+						|| e.getActionCommand().contentEquals(AbstractManagerUI.DEPT_MENU)
+						|| e.getActionCommand().contentEquals(AbstractManagerUI.EMP_MENU)) {
 					actionPerformedMenuGubun();
 				}
 			} else {
