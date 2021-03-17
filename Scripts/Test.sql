@@ -21,7 +21,11 @@ select password('1234')
 -- emp detail insert
 INSERT INTO emp_detail(empno, pic, gender, hiredate, passwd) VALUES(?, ?, ?, ?, ?);
 
+
+select empno, pic, gender, hiredate, passwd from emp_detail;
 select empno, pic, gender, hiredate, passwd from emp_detail where empno = 1003;
+select empno, pic, gender, hiredate, passwd from emp_detail where empno = 1365;
 select empno, pic, gender, hiredate, passwd from emp_detail where empno = ?;
+
 
 delete from emp_detail where empno = 1003;
